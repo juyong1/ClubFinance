@@ -1,0 +1,56 @@
+﻿@model ClubFinance.Models.Membership3
+
+@{
+    ViewBag.Title = "Join This Club";
+}
+
+<h2>Welcome, @ViewBag.UserFirstName @ViewBag.UserLastName!</h2>
+<h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.UserId, new { @Value = ViewBag.UserId })
+    @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+    @Html.HiddenFor(model => model.RegistrationDate, new {@Value = @DateTime.Now})
+    @Html.HiddenFor(model => model.IsMember, new { @Value = true })
+    
+    <div class="form-horizontal">
+
+        @foreach (var item in (ViewBag.MembershipOptions as List<ClubFinance.Models.MembershipOption2>))
+        {
+            <div class="form-group">
+                @{
+                    var btnText =
+                " " + item.Option.ToString() + " - USD " + item.Price.ToString() + "<br />" +
+                "Expiration: " + item.Expiration.ToString() + "<br /> " +
+                "Description: " + item.Description + "<br /><br />";
+                }
+                <div class="col-md-10">
+                    @Html.RadioButtonFor(model => model.Option, item.Option)
+                    @Html.Raw(btnText)
+                </div>
+            </div>
+                    }
+
+   
+
+     <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id ="Join" type="submit" value="Join" class="btn btn-default" />
+        </div>
+     </div>
+     </div>
+   
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
