@@ -27,6 +27,7 @@ namespace ClubFinance.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [MaxLength=500]
         public string ConfirmPassword { get; set; }
 
         [Required]
