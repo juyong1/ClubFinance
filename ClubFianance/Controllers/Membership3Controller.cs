@@ -35,6 +35,31 @@ namespace ClubFinance.Controllers
             return View(membership3);
         }
 
+        public ActionResult ViewMyMembership(int? userId, int? clubId)
+        {
+            if (userId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (clubId == null)
+            {
+                // fetch all memberships
+                return View(db.Memberships.Where(n => n.UserId == userId).ToList()); 
+                
+            } else
+            {
+                Club2DbContext club2Db = new Club2DbContext();
+                Club2 club2 = club2Db.Clubs.Find(clubId);
+
+                ViewBag.ClubName = club2.Name;
+                ViewBag.ClubNickName = club2.NickName;
+
+                // fetch membership of the club Id 
+                return View(db.Memberships.Where(n => n.UserId == userId && n.ClubId == clubId).ToList());
+            }
+        }
+
         // GET: Membership3/Create
         public ActionResult Create(int? clubId, string clubName, string clubNickName, int? userId, string userFirstName, string userLastName)
         {
@@ -72,8 +97,8 @@ namespace ClubFinance.Controllers
 
                 db.Memberships.Add(membership3);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                return RedirectToAction("ViewMyMembership", new { userId = membership3.UserId, clubId = membership3.ClubId });
+             }
 
             return View(membership3);
         }

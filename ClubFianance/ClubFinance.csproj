@@ -321,6 +321,7 @@
     <Content Include="Views\Membership3\Details.cshtml" />
     <Content Include="Views\Membership3\Edit.cshtml" />
     <Content Include="Views\Membership3\Index.cshtml" />
+    <Content Include="Views\Membership3\ViewMyMembership.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

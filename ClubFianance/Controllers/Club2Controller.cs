@@ -20,7 +20,7 @@ namespace ClubFinance.Content
 
             if (mode == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                mode = 1;
             }
             ViewBag.mode = mode;    // mode = 1 (Admin Perspective)
                                     // mode = 2 (Officer Perspective)

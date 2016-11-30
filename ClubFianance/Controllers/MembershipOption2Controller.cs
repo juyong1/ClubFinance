@@ -22,6 +22,15 @@ namespace ClubFinance.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            if (clubName == null)
+            {
+                Club2DbContext club2Db = new Club2DbContext();
+                Club2 club2 = club2Db.Clubs.Find(clubId);
+
+                clubName = club2.Name;
+                clubNickName = club2.NickName;
+            }
+
             ViewBag.ClubId = clubId;
             ViewBag.ClubName = clubName;
             ViewBag.ClubNickName = clubNickName;
@@ -71,7 +80,9 @@ namespace ClubFinance.Controllers
             {
                 db.MembershipOptions.Add(membershipOption2);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clubId = membershipOption2.ClubId, clubName = "", clubNickName = "" });
+               
             }
 
             return View(membershipOption2);
